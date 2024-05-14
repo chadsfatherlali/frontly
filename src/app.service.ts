@@ -10,9 +10,20 @@ export class AppService {
         <title>Document</title>
     </head>
     <body>
-      <pre>Hola {{ name }}</pre>
+      <p>Hola {{name}}</p>
+      {{> button}}
     </body>
     </html>`;
+
+    Handlebars.registerPartial(
+      'button',
+      `<button id="alertMessage">Click me!</button>
+      <script>
+        document.querySelector('#alertMessage').onclick = () => {
+          alert('Hola {{name}}')
+        }
+      </script>`,
+    );
 
     const template: any = Handlebars.compile(source);
     const data: any = { name: 'Santiago Sánchez' };
