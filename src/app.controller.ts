@@ -1,4 +1,11 @@
-import { Controller, Get, ConsoleLogger, Param, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  ConsoleLogger,
+  Param,
+  Res,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 
@@ -9,12 +16,14 @@ export class AppController {
     private readonly appService: AppService,
   ) {}
 
-  @Get(':clientName/:pageName(*)')
+  @Get(':clientName/:pageName(*)?')
   getPage(
     @Res() res: Response,
+    @Query() queryParams: any,
     @Param('clientName') clientName: string,
     @Param('pageName') pageName: string,
   ): any {
+    this.consoleLogger.debug(queryParams);
     this.consoleLogger.debug(clientName);
     this.consoleLogger.debug(pageName);
 
