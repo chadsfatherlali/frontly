@@ -1,33 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
 import Handlebars from 'handlebars';
+import { TenantsService } from './modules/tenants/tenants.service';
+import { PagesService } from './modules/pages/pages.service';
 
 @Injectable()
 export class AppService {
-  getPage(): string {
-    const source: string = `<!DOCTYPE html>
-    <html>
-    <head>
-        <title>Document</title>
-    </head>
-    <body>
-      <p>Hola {{name}}</p>
-      {{> button}}
-    </body>
-    </html>`;
+  constructor(
+    private readonly tenantsService: TenantsService,
+    private readonly pagesServices: PagesService,
+    private readonly consoleLogger: ConsoleLogger,
+  ) {}
 
-    Handlebars.registerPartial(
-      'button',
-      `<button id="alertMessage">Click me!</button>
-      <script>
-        document.querySelector('#alertMessage').onclick = () => {
-          alert('Hola {{name}}')
-        }
-      </script>`,
+  async getPage(tenantSlug: string, url: string): Promise<string> {
+    const tenatData = await this.tenantsService.findBySlug(tenantSlug);
+    const pageData = await this.pagesServices.findPageByUrlAndTenantId(
+      `/${url}`,
+      tenatData._id,
     );
 
-    const template: any = Handlebars.compile(source);
-    const data: any = { name: 'Santiago Sánchez' };
-    const result: any = template(data);
+    this.consoleLogger.log(
+      `======================== ${tenantSlug}/${url} ========================`,
+    );
+    this.consoleLogger.log(tenatData);
+    this.consoleLogger.log(pageData);
+
+    if (!tenatData || !pageData) {
+      throw new NotFoundException();
+    }
+
+    if (tenatData._id.toString() !== pageData.tenantId.toString()) {
+      throw new NotFoundException();
+    }
+
+    const templateCode: string = pageData.template;
+    const template: any = Handlebars.compile(templateCode);
+    const result: any = template();
 
     return result;
   }
