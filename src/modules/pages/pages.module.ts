@@ -1,7 +1,7 @@
 import { ConsoleLogger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Page, PageSchema } from 'src/schemas/page.schema';
+import { Page, PageSchema } from './page.schema';
 import { PagesController } from './pages.controller';
 import { PagesService } from './pages.service';
 

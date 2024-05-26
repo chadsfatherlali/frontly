@@ -2,9 +2,9 @@ import { ConsoleLogger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TenantsController } from './tenants.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Tenant, TenantSchema } from 'src/schemas/tenant.schema';
+import { Tenant, TenantSchema } from './tenant.schema';
 import { TenantsService } from './tenants.service';
-import { Page, PageSchema } from 'src/schemas/page.schema';
+import { Page, PageSchema } from 'src/modules/pages/page.schema';
 
 @Module({
   imports: [

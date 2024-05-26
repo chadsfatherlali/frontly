@@ -1,9 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Tenant } from 'src/schemas/tenant.schema';
+import { Tenant } from './tenant.schema';
 import { CreateTenantDto } from './tenants.dto';
-import { Page } from 'src/schemas/page.schema';
+import { Page } from 'src/modules/pages/page.schema';
 
 @Injectable()
 export class TenantsService {

@@ -7,8 +7,12 @@ import { PagesModule } from './modules/pages/pages.module';
 import { TenantsModule } from './modules/tenants/tenants.module';
 import { TenantsService } from './modules/tenants/tenants.service';
 import { PagesService } from './modules/pages/pages.service';
-import { Page, PageSchema } from './schemas/page.schema';
-import { Tenant, TenantSchema } from './schemas/tenant.schema';
+import { Page, PageSchema } from './modules/pages/page.schema';
+import { Tenant, TenantSchema } from './modules/tenants/tenant.schema';
+import { SnippetsModule } from './modules/snippets/snippets.module';
+import { Snippet, SnippetSchema } from './modules/snippets/snippet.schema';
+import { SnippetsService } from './modules/snippets/snippets.service';
+import { WidgetsModule } from './modules/widgets/widgets.module';
 
 @Module({
   imports: [
@@ -23,11 +27,14 @@ import { Tenant, TenantSchema } from './schemas/tenant.schema';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
+    WidgetsModule,
+    SnippetsModule,
     PagesModule,
     TenantsModule,
     MongooseModule.forFeature([
       { name: Tenant.name, schema: TenantSchema },
       { name: Page.name, schema: PageSchema },
+      { name: Snippet.name, schema: SnippetSchema },
     ]),
   ],
   controllers: [AppController],
@@ -37,6 +44,7 @@ import { Tenant, TenantSchema } from './schemas/tenant.schema';
     ConfigService,
     TenantsService,
     PagesService,
+    SnippetsService,
   ],
 })
 export class AppModule {}

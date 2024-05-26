@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Page } from 'src/schemas/page.schema';
+import { Page } from './page.schema';
 import { CreatePageDto } from './pages.dto';
 
 @Injectable()
