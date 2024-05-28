@@ -17,7 +17,7 @@ export class AppService {
     private readonly consoleLogger: ConsoleLogger,
   ) {}
 
-  async getPage(tenantSlug: string, url: string): Promise<string> {
+  async getPage(tenantSlug: string, url: string): Promise<HTMLElement> {
     const tenantData = await this.tenantsService.findBySlug(tenantSlug);
     const pageData = await this.pagesServices.findPageByUrlAndTenantId(
       `/${url}`,
@@ -70,7 +70,7 @@ export class AppService {
       });
     }
 
-    const result: any = template();
+    const result: HTMLElement = template();
 
     return result;
   }
