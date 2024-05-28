@@ -8,13 +8,20 @@ export class Widget {
   @Prop({ required: true })
   tenantId: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop()
+  path: string;
+
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })
-  template: string;
+  root: string;
+
+  @Prop({ required: true })
+  indexJs: string;
+
+  @Prop({ required: true })
+  indexCss: string;
 }
 
 export const WidgetSchema = SchemaFactory.createForClass(Widget);
-
-WidgetSchema.index({ tenantId: 1, name: 1 }, { unique: true });

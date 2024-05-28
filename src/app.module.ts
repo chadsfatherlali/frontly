@@ -13,6 +13,10 @@ import { SnippetsModule } from './modules/snippets/snippets.module';
 import { Snippet, SnippetSchema } from './modules/snippets/snippet.schema';
 import { SnippetsService } from './modules/snippets/snippets.service';
 import { WidgetsModule } from './modules/widgets/widgets.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { WidgetsService } from './modules/widgets/widgets.service';
+import { Widget, WidgetSchema } from './modules/widgets/widgets.schema';
 
 @Module({
   imports: [
@@ -27,6 +31,9 @@ import { WidgetsModule } from './modules/widgets/widgets.module';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
     WidgetsModule,
     SnippetsModule,
     PagesModule,
@@ -35,6 +42,7 @@ import { WidgetsModule } from './modules/widgets/widgets.module';
       { name: Tenant.name, schema: TenantSchema },
       { name: Page.name, schema: PageSchema },
       { name: Snippet.name, schema: SnippetSchema },
+      { name: Widget.name, schema: WidgetSchema },
     ]),
   ],
   controllers: [AppController],
@@ -45,6 +53,7 @@ import { WidgetsModule } from './modules/widgets/widgets.module';
     TenantsService,
     PagesService,
     SnippetsService,
+    WidgetsService,
   ],
 })
 export class AppModule {}

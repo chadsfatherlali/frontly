@@ -4,6 +4,8 @@ import { TenantsService } from './modules/tenants/tenants.service';
 import { PagesService } from './modules/pages/pages.service';
 import { SnippetsService } from './modules/snippets/snippets.service';
 import { Snippet } from './modules/snippets/snippet.schema';
+import { WidgetsService } from './modules/widgets/widgets.service';
+import { Widget } from './modules/widgets/widgets.schema';
 
 @Injectable()
 export class AppService {
@@ -11,6 +13,7 @@ export class AppService {
     private readonly tenantsService: TenantsService,
     private readonly pagesServices: PagesService,
     private readonly snippetsServices: SnippetsService,
+    private readonly widgetsServices: WidgetsService,
     private readonly consoleLogger: ConsoleLogger,
   ) {}
 
@@ -39,8 +42,27 @@ export class AppService {
       tenantData._id,
     );
 
+    const widgtesData = await this.widgetsServices.getWidgetsByTenanId(
+      tenantData._id,
+    );
+
     const templateCode: string = pageData.template;
     const template: any = Handlebars.compile(templateCode);
+
+    if (widgtesData.length) {
+      widgtesData.forEach((widget: Widget) => {
+        Handlebars.registerPartial(
+          widget.name,
+          this.widgetsServices.partialHelper(
+            widget.root,
+            widget.indexJs,
+            widget.indexCss,
+            widget.tenantId.toString(),
+            widget.name,
+          ),
+        );
+      });
+    }
 
     if (snippetsData.length) {
       snippetsData.forEach((snippet: Snippet) => {

@@ -1,28 +1,26 @@
 import {
   Controller,
   Post,
+  Body,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { WidgetsService } from './widgets.service';
+import { CreateWidgetDto } from './widgets.dto';
 
 @Controller('api/v1/widgets')
 export class WidgetsController {
-  constructor() {}
+  constructor(private readonly widgetsServices: WidgetsService) {}
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req: any, file: Express.Multer.File, cb: any) => {
-          cb(null, file.originalname);
-        },
-      }),
-    }),
-  )
-  upload(@UploadedFile() file: Express.Multer.File): Express.Multer.File {
-    return file;
+  @UseInterceptors(FileInterceptor('file'))
+  async upload(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: CreateWidgetDto,
+  ): Promise<any> {
+    const result = await this.widgetsServices.upload(body, file);
+
+    return result;
   }
 }
