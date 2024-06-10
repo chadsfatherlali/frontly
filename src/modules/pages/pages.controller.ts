@@ -1,6 +1,6 @@
-import { Body, Controller, Param, Post, Get } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, Patch } from '@nestjs/common';
 import { PagesService } from './pages.service';
-import { CreatePageDto } from './pages.dto';
+import { CreatePageDto, UpdatePageDto } from './pages.dto';
 
 @Controller('api/v1/pages')
 export class PagesController {
@@ -16,6 +16,13 @@ export class PagesController {
   @Get(':tenantId')
   findPagesByTenant(@Param() params: any): Promise<any[]> {
     const result = this.pageService.findPagesByTenant(params.tenantId);
+
+    return result;
+  }
+
+  @Patch()
+  updatePage(@Body() updatePage: UpdatePageDto): Promise<any> {
+    const result = this.pageService.updatePage(updatePage);
 
     return result;
   }

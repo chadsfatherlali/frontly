@@ -1,6 +1,6 @@
 import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
 import Handlebars from 'handlebars';
-import { TenantsService } from './modules/tenants/tenants.service';
+import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
 import { SnippetsService } from './modules/snippets/snippets.service';
 import { Snippet } from './modules/snippets/snippet.schema';
@@ -10,7 +10,7 @@ import { Widget } from './modules/widgets/widgets.schema';
 @Injectable()
 export class AppService {
   constructor(
-    private readonly tenantsService: TenantsService,
+    private readonly tenantsService: SitesService,
     private readonly pagesServices: PagesService,
     private readonly snippetsServices: SnippetsService,
     private readonly widgetsServices: WidgetsService,
@@ -21,7 +21,7 @@ export class AppService {
     const tenantData = await this.tenantsService.findBySlug(tenantSlug);
     const pageData = await this.pagesServices.findPageByUrlAndTenantId(
       `/${url}`,
-      tenantData._id,
+      tenantData.id,
     );
 
     this.consoleLogger.log(
@@ -34,23 +34,19 @@ export class AppService {
       throw new NotFoundException();
     }
 
-    if (tenantData._id.toString() !== pageData.tenantId.toString()) {
+    if (tenantData.id.toString() !== pageData.tenantId.toString()) {
       throw new NotFoundException();
     }
 
     const snippetsData = await this.snippetsServices.findSnippetsByTenant(
-      tenantData._id,
-    );
-
-    const widgtesData = await this.widgetsServices.getWidgetsByTenanId(
-      tenantData._id,
+      tenantData.id,
     );
 
     const templateCode: string = pageData.template;
     const template: any = Handlebars.compile(templateCode);
 
-    if (widgtesData.length) {
-      widgtesData.forEach((widget: Widget) => {
+    if (pageData.widgets.length) {
+      pageData.widgets.forEach((widget: Widget) => {
         Handlebars.registerPartial(
           widget.name,
           this.widgetsServices.partialHelper(

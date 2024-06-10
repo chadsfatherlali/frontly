@@ -1,0 +1,512 @@
+{
+	"info": {
+		"_postman_id": "b0ff9231-fd31-4298-b8d1-443a76647ce9",
+		"name": "FRONTLY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3904230"
+	},
+	"item": [
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "CREATE USERS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Santiago\",\r\n    \"lastName\": \"Sánchez\",\r\n    \"email\": \"chadsfather@gmail.com\",\r\n    \"password\": \"Todo1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USERS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYWRzZmF0aGVyQGdtYWlsLmNvbSIsInN1YiI6IjIzY2ZmZmEyLTMwYWItNDg2Yi04ZmU5LTE5OTZlNGNkYWY4OCIsImlhdCI6MTcxNzk4NjMyN30.FgAtt0Si-6iP1hNtK5lXPduGSgbj7GPAlQnbruSiyKk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USERS BY ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYWRzZmF0aGVyQGdtYWlsLmNvbSIsInN1YiI6IjIzY2ZmZmEyLTMwYWItNDg2Yi04ZmU5LTE5OTZlNGNkYWY4OCIsImlhdCI6MTcxNzk4NjMyN30.FgAtt0Si-6iP1hNtK5lXPduGSgbj7GPAlQnbruSiyKk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/37125d5e-530f-4f9b-88be-e151378e629f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"37125d5e-530f-4f9b-88be-e151378e629f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SITES",
+			"item": [
+				{
+					"name": "GET SITES",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYWRzZmF0aGVyQGdtYWlsLmNvbSIsInN1YiI6IjIzY2ZmZmEyLTMwYWItNDg2Yi04ZmU5LTE5OTZlNGNkYWY4OCIsImlhdCI6MTcxNzk4NjMyN30.FgAtt0Si-6iP1hNtK5lXPduGSgbj7GPAlQnbruSiyKk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/sites",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE SITES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYWRzZmF0aGVyQGdtYWlsLmNvbSIsInN1YiI6IjM3MTI1ZDVlLTUzMGYtNGY5Yi04OGJlLWUxNTEzNzhlNjI5ZiIsImlhdCI6MTcxNzk5NjQwNn0.j-z-kWTugXWjKYsqxwMWYgalRLPwaz3Dy1FBkQ9NYhs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"siteSlug\": \"site-test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/sites",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"sites"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PAGES",
+			"item": [
+				{
+					"name": "CREATE PAGES",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"664d7edeb6f7af15aa394d6b\",\r\n    \"tenantId\": \"664d7e05b6f7af15aa394d64\",\r\n    \"widgets\": [\"66557d3295fd58a971b4e5aa\"] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PAGES BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pages/664d7e05b6f7af15aa394d64",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pages",
+								"664d7e05b6f7af15aa394d64"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SNIPPETS",
+			"item": [
+				{
+					"name": "CREATE SNIPPETS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tenantId\": \"664d7e05b6f7af15aa394d64\",\r\n    \"name\": \"footer\",\r\n    \"template\": \"<h2>HOLA SANCHEZ!!!</h2>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/snippets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"snippets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SNIPPETS BY TENANT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/snippets/664d7e05b6f7af15aa394d64",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"snippets",
+								"664d7e05b6f7af15aa394d64"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WIDGETS",
+			"item": [
+				{
+					"name": "CREATE WIDGETS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/1983s/OneDrive/Documentos/NODEJS/TestWidget/dist/assets/TestWidget.zip"
+								},
+								{
+									"key": "tenantId",
+									"value": "664d7e05b6f7af15aa394d64",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TestWidget",
+									"type": "text"
+								},
+								{
+									"key": "indexJs",
+									"value": "index-C-aA0lbL",
+									"type": "text"
+								},
+								{
+									"key": "indexCss",
+									"value": "index-Ddo_M0Ii",
+									"type": "text"
+								},
+								{
+									"key": "root",
+									"value": "root",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/widgets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"widgets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE WIDGETS EXAMPLE VUE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/1983s/OneDrive/Documentos/NODEJS/TestWidgetVue/dist/assets/TestWidgetVue.zip"
+								},
+								{
+									"key": "tenantId",
+									"value": "664d7e05b6f7af15aa394d64",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TestWidgetVue",
+									"type": "text"
+								},
+								{
+									"key": "indexJs",
+									"value": "index-GwkHndXs",
+									"type": "text"
+								},
+								{
+									"key": "indexCss",
+									"value": "index-DQRkJG5v",
+									"type": "text"
+								},
+								{
+									"key": "root",
+									"value": "app",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/widgets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"widgets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOGIN",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"chadsfather@gmail.com\",\r\n    \"password\": \"Todo1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "APP",
+			"item": [
+				{
+					"name": "RENDER PAGE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/site-test-page/home",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"site-test-page",
+								"home"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

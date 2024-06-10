@@ -5,6 +5,8 @@ export type WidgetsDocument = HydratedDocument<Widget>;
 
 @Schema({ timestamps: true })
 export class Widget {
+  _id: mongoose.Schema.Types.ObjectId;
+
   @Prop({ required: true })
   tenantId: mongoose.Schema.Types.ObjectId;
 

@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagesModule } from './modules/pages/pages.module';
-import { TenantsModule } from './modules/tenants/tenants.module';
-import { TenantsService } from './modules/tenants/tenants.service';
+import { SitesModule } from './modules/sites/sites.module';
+import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
 import { Page, PageSchema } from './modules/pages/page.schema';
-import { Tenant, TenantSchema } from './modules/tenants/tenant.schema';
+import { Site } from './modules/sites/sites.schema';
 import { SnippetsModule } from './modules/snippets/snippets.module';
 import { Snippet, SnippetSchema } from './modules/snippets/snippet.schema';
 import { SnippetsService } from './modules/snippets/snippets.service';
@@ -17,10 +17,47 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { WidgetsService } from './modules/widgets/widgets.service';
 import { Widget, WidgetSchema } from './modules/widgets/widgets.schema';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './modules/users/users.module';
+import { UsersService } from './modules/users/users.service';
+import { User } from './modules/users/users.schema';
+import { AuthService } from './modules/auth/auth.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { LocalStrategy } from './modules/auth/local.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './modules/auth/jwt.strategy';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET', ''),
+        signOptions: {
+          expiresIn: configService.get<string>('JWT_EXPIRE', ''),
+        },
+      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST', 'localhost'),
+        port: configService.get<number>('DB_PORT', 3306),
+        username: configService.get<string>('DB_USER', ''),
+        password: configService.get<string>('DB_PASSWORD', ''),
+        database: configService.get<string>('DB_NAME', ''),
+        entities: [Site, User],
+        synchronize: configService.get<boolean>('DB_SYNC', false),
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('DB_URL', ''),
@@ -34,12 +71,14 @@ import { Widget, WidgetSchema } from './modules/widgets/widgets.schema';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
+    PassportModule,
+    AuthModule,
+    UsersModule,
     WidgetsModule,
     SnippetsModule,
     PagesModule,
-    TenantsModule,
+    SitesModule,
     MongooseModule.forFeature([
-      { name: Tenant.name, schema: TenantSchema },
       { name: Page.name, schema: PageSchema },
       { name: Snippet.name, schema: SnippetSchema },
       { name: Widget.name, schema: WidgetSchema },
@@ -47,13 +86,18 @@ import { Widget, WidgetSchema } from './modules/widgets/widgets.schema';
   ],
   controllers: [AppController],
   providers: [
+    JwtService,
     AppService,
     ConsoleLogger,
     ConfigService,
-    TenantsService,
+    SitesService,
     PagesService,
     SnippetsService,
     WidgetsService,
+    UsersService,
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
   ],
 })
 export class AppModule {}

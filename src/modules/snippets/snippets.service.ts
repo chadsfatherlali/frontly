@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { CreateSnippetDto } from './snippets.dto';
 import { Snippet } from './snippet.schema';
 
@@ -20,9 +20,7 @@ export class SnippetsService {
     }
   }
 
-  async findSnippetsByTenant(
-    tenantId: mongoose.Schema.Types.ObjectId,
-  ): Promise<Snippet[]> {
+  async findSnippetsByTenant(tenantId: string): Promise<Snippet[]> {
     try {
       const result = await this.snippetModel.find({ tenantId });
 
