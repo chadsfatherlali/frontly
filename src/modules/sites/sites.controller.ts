@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { SitesService } from './sites.service';
 import { CreateSiteDto } from './sites.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Site } from './sites.schema';
 
 @Controller('api/v1/sites')
 export class SitesController {
@@ -19,6 +20,14 @@ export class SitesController {
   @Get()
   findAll(): Promise<any[]> {
     const result = this.sitesService.findAll();
+
+    return result;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':slug')
+  findBySlug(@Param() params: any): Promise<Site> {
+    const result = this.sitesService.findBySlug(params.slug);
 
     return result;
   }

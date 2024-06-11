@@ -1,16 +1,8 @@
-import mongoose from 'mongoose';
-
 export class CreatePageDto {
-  readonly tenantId: string;
   readonly url: string;
-  readonly template: string;
+  readonly siteId: string;
 }
 
-export class UpdatePageDto {
-  readonly _id: mongoose.Schema.Types.ObjectId;
-  readonly tenantId: string;
-  readonly url: string;
-  readonly template: string;
-  widgets: mongoose.Schema.Types.ObjectId[];
-  snippets: mongoose.Schema.Types.ObjectId[];
+export class AssignTemplateDto {
+  readonly templateId: string;
 }

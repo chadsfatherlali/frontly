@@ -1,11 +1,9 @@
-import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
-import Handlebars from 'handlebars';
+import { ConsoleLogger, Injectable } from '@nestjs/common';
+// import Handlebars from 'handlebars';
 import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
 import { SnippetsService } from './modules/snippets/snippets.service';
-import { Snippet } from './modules/snippets/snippet.schema';
 import { WidgetsService } from './modules/widgets/widgets.service';
-import { Widget } from './modules/widgets/widgets.schema';
 
 @Injectable()
 export class AppService {
@@ -17,8 +15,8 @@ export class AppService {
     private readonly consoleLogger: ConsoleLogger,
   ) {}
 
-  async getPage(tenantSlug: string, url: string): Promise<HTMLElement> {
-    const tenantData = await this.tenantsService.findBySlug(tenantSlug);
+  async getPage(): Promise<any> {
+    /* const tenantData = await this.tenantsService.findBySlug(tenantSlug);
     const pageData = await this.pagesServices.findPageByUrlAndTenantId(
       `/${url}`,
       tenantData.id,
@@ -68,6 +66,7 @@ export class AppService {
 
     const result: HTMLElement = template();
 
-    return result;
+    return result; */
+    return '<div></div>';
   }
 }

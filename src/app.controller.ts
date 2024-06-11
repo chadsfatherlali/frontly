@@ -1,4 +1,4 @@
-import { Controller, Get, ConsoleLogger, Param, Res } from '@nestjs/common';
+import { Controller, Get, ConsoleLogger, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express';
 
@@ -10,12 +10,8 @@ export class AppController {
   ) {}
 
   @Get('site-:tenantSlug/:page(*)?')
-  async getPage(
-    @Res() res: Response,
-    @Param('tenantSlug') tenantSlug: string,
-    @Param('page') page: string,
-  ): Promise<any> {
-    const result = await this.appService.getPage(tenantSlug, page);
+  async getPage(@Res() res: Response): Promise<any> {
+    const result = await this.appService.getPage();
 
     return res.send(result);
   }

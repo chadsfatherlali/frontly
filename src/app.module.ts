@@ -7,7 +7,6 @@ import { PagesModule } from './modules/pages/pages.module';
 import { SitesModule } from './modules/sites/sites.module';
 import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
-import { Page, PageSchema } from './modules/pages/page.schema';
 import { Site } from './modules/sites/sites.schema';
 import { SnippetsModule } from './modules/snippets/snippets.module';
 import { Snippet, SnippetSchema } from './modules/snippets/snippet.schema';
@@ -27,6 +26,10 @@ import { LocalStrategy } from './modules/auth/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './modules/auth/jwt.strategy';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { Page } from './modules/pages/page.schema';
+import { Template } from './modules/templates/templates.schema';
+import { TemplatesModule } from './modules/templates/templates.module';
+import { TemplatesService } from './modules/templates/templates.service';
 
 @Module({
   imports: [
@@ -49,7 +52,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
         username: configService.get<string>('DB_USER', ''),
         password: configService.get<string>('DB_PASSWORD', ''),
         database: configService.get<string>('DB_NAME', ''),
-        entities: [Site, User],
+        entities: [Site, User, Page, Template],
         synchronize: configService.get<boolean>('DB_SYNC', false),
         ssl: {
           rejectUnauthorized: false,
@@ -73,13 +76,13 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     }),
     PassportModule,
     AuthModule,
+    TemplatesModule,
     UsersModule,
     WidgetsModule,
     SnippetsModule,
     PagesModule,
     SitesModule,
     MongooseModule.forFeature([
-      { name: Page.name, schema: PageSchema },
       { name: Snippet.name, schema: SnippetSchema },
       { name: Widget.name, schema: WidgetSchema },
     ]),
@@ -90,6 +93,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     AppService,
     ConsoleLogger,
     ConfigService,
+    TemplatesService,
     SitesService,
     PagesService,
     SnippetsService,

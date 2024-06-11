@@ -1,11 +1,21 @@
-import { Body, Controller, Param, Post, Get, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
 import { PagesService } from './pages.service';
-import { CreatePageDto, UpdatePageDto } from './pages.dto';
+import { AssignTemplateDto, CreatePageDto } from './pages.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/v1/pages')
 export class PagesController {
   constructor(private readonly pageService: PagesService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createPageDto: CreatePageDto): Promise<any> {
     const result = this.pageService.create(createPageDto);
@@ -13,16 +23,30 @@ export class PagesController {
     return result;
   }
 
-  @Get(':tenantId')
-  findPagesByTenant(@Param() params: any): Promise<any[]> {
-    const result = this.pageService.findPagesByTenant(params.tenantId);
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  findAll(): Promise<any[]> {
+    const result = this.pageService.findAll();
 
     return result;
   }
 
-  @Patch()
-  updatePage(@Body() updatePage: UpdatePageDto): Promise<any> {
-    const result = this.pageService.updatePage(updatePage);
+  @Get(':id')
+  findById(@Param() params: any): Promise<any> {
+    const result = this.pageService.findOneById(params.id);
+
+    return result;
+  }
+
+  @Patch(':pageId')
+  assignTemaplte(
+    @Param() params: any,
+    @Body() body: AssignTemplateDto,
+  ): Promise<any> {
+    const result = this.pageService.assignTemplate(
+      params.pageId,
+      body.templateId,
+    );
 
     return result;
   }

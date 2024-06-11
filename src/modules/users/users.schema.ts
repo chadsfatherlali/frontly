@@ -8,6 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Site } from '../sites/sites.schema';
+import { Page } from '../pages/page.schema';
+import { Template } from '../templates/templates.schema';
 
 @Entity()
 export class User {
@@ -35,4 +37,10 @@ export class User {
 
   @OneToMany(() => Site, (site) => site.user)
   sites: Site[];
+
+  @OneToMany(() => Page, (page) => page.user)
+  pages: Page[];
+
+  @OneToMany(() => Template, (template) => template.user)
+  templates: Template[];
 }

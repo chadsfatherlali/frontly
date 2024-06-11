@@ -2,31 +2,20 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Site } from '../sites/sites.schema';
 import { User } from '../users/users.schema';
-import { Template } from '../templates/templates.schema';
 
 @Entity()
-export class Page {
+export class Template {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Index('page_url_idx')
-  @Column({ unique: true })
-  url: string;
-
-  @Column({ nullable: true })
-  templateId: string;
-
-  @Column({ default: false })
-  private: boolean;
+  @Column('text', { nullable: false })
+  template: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -39,8 +28,4 @@ export class Page {
 
   @ManyToOne(() => Site, (site) => site.pages)
   site: Site;
-
-  @OneToOne(() => Template)
-  @JoinColumn()
-  template: Template;
 }

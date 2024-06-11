@@ -44,7 +44,10 @@ export class SitesService {
 
   async findBySlug(siteSlug: string): Promise<Site> {
     try {
-      const result = await this.siteRepository.findOneBy({ siteSlug });
+      const result = await this.siteRepository.findOne({
+        where: { siteSlug },
+        relations: ['user', 'pages'],
+      });
 
       return result;
     } catch (err: any) {

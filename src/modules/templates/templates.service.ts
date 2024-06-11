@@ -1,6 +1,6 @@
 import { HttpException, Inject, Injectable, Scope } from '@nestjs/common';
-import { Page } from './page.schema';
-import { CreatePageDto } from './pages.dto';
+import { Template } from './templates.schema';
+import { CreateTemplateDto } from './templates.dto';
 import { REQUEST } from '@nestjs/core';
 import { CustomRequest } from 'src/interfaces/custom-request.interface';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,26 +9,28 @@ import { User } from '../users/users.schema';
 import { Site } from '../sites/sites.schema';
 
 @Injectable({ scope: Scope.REQUEST })
-export class PagesService {
+export class TemplatesService {
   constructor(
     @Inject(REQUEST) private request: CustomRequest,
-    @InjectRepository(Page) private pageRepository: Repository<Page>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Template)
+    private templateRepository: Repository<Template>,
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(createPageDto: CreatePageDto): Promise<Page> {
+  async create(createTemplateDto: CreateTemplateDto): Promise<Template> {
     try {
-      const result = await this.pageRepository.save(createPageDto);
+      const result = await this.templateRepository.save(createTemplateDto);
 
       await this.dataSource
         .createQueryBuilder()
-        .relation(User, 'pages')
+        .relation(User, 'templates')
         .of(this.request.user.userId)
         .add(result.id);
 
       await this.dataSource
         .createQueryBuilder()
-        .relation(Site, 'pages')
+        .relation(Site, 'templates')
         .of(result.siteId)
         .add(result.id);
 
@@ -38,24 +40,10 @@ export class PagesService {
     }
   }
 
-  async assignTemplate(pageId: string, templateId: string): Promise<Page> {
-    try {
-      const page = await this.pageRepository.findOne({ where: { id: pageId } });
-
-      this.pageRepository.merge(page, { templateId });
-
-      const result = this.pageRepository.save(page);
-
-      return result;
-    } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
-    }
-  }
-
-  async findAll(): Promise<Page[]> {
+  /* async findAll(): Promise<Page[]> {
     try {
       const result = await this.pageRepository.find({
-        where: { user: { id: this.request.user.userId } },
+        where: { userId: this.request.user.userId },
       });
 
       return result;
@@ -64,20 +52,7 @@ export class PagesService {
     }
   }
 
-  async findOneById(id: string): Promise<Page> {
-    try {
-      const result = await this.pageRepository.findOne({
-        where: { id },
-        relations: ['template'],
-      });
-
-      return result;
-    } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
-    }
-  }
-
-  /* async findPageByUrlAndTenantId(url: string, tenantId: string): Promise<Page> {
+  async findPageByUrlAndTenantId(url: string, tenantId: string): Promise<Page> {
     try {
       const result = await this.pageModel
         .findOne({ url, tenantId })

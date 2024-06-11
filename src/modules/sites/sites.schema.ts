@@ -4,10 +4,13 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../users/users.schema';
+import { Page } from '../pages/page.schema';
+import { Template } from '../templates/templates.schema';
 
 @Entity()
 export class Site {
@@ -29,4 +32,10 @@ export class Site {
 
   @ManyToOne(() => User, (user) => user.sites)
   user: User;
+
+  @OneToMany(() => Page, (page) => page.site)
+  pages: Page[];
+
+  @OneToMany(() => Template, (template) => template.site)
+  templates: Template[];
 }
