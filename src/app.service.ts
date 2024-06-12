@@ -1,72 +1,86 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
-// import Handlebars from 'handlebars';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import Handlebars from 'handlebars';
 import { SitesService } from './modules/sites/sites.service';
-import { PagesService } from './modules/pages/pages.service';
-import { SnippetsService } from './modules/snippets/snippets.service';
-import { WidgetsService } from './modules/widgets/widgets.service';
 
 @Injectable()
 export class AppService {
-  constructor(
-    private readonly tenantsService: SitesService,
-    private readonly pagesServices: PagesService,
-    private readonly snippetsServices: SnippetsService,
-    private readonly widgetsServices: WidgetsService,
-    private readonly consoleLogger: ConsoleLogger,
-  ) {}
+  constructor(private readonly sitesServices: SitesService) {}
 
-  async getPage(): Promise<any> {
-    /* const tenantData = await this.tenantsService.findBySlug(tenantSlug);
-    const pageData = await this.pagesServices.findPageByUrlAndTenantId(
-      `/${url}`,
-      tenantData.id,
-    );
+  async getPage(siteSlug: string, url: string): Promise<HTMLElement> {
+    try {
+      const site = await this.sitesServices.findBySlug(siteSlug);
 
-    this.consoleLogger.log(
-      `======================== ${tenantSlug}/${url} ========================`,
-    );
-    this.consoleLogger.log(tenantData);
-    this.consoleLogger.log(pageData);
+      if (!site) {
+        throw new NotFoundException();
+      }
 
-    if (!tenantData || !pageData) {
-      throw new NotFoundException();
-    }
+      const page = site.pages.filter((page) => page.url === `/${url}`)[0];
 
-    if (tenantData.id.toString() !== pageData.tenantId.toString()) {
-      throw new NotFoundException();
-    }
+      if (!page) {
+        throw new NotFoundException();
+      }
 
-    const snippetsData = await this.snippetsServices.findSnippetsByTenant(
-      tenantData.id,
-    );
+      const template = site.templates.filter(
+        (template) => template.id === page.templateId,
+      )[0];
 
-    const templateCode: string = pageData.template;
-    const template: any = Handlebars.compile(templateCode);
+      if (!template) {
+        throw new NotFoundException();
+      }
 
-    if (pageData.widgets.length) {
-      pageData.widgets.forEach((widget: Widget) => {
-        Handlebars.registerPartial(
-          widget.name,
-          this.widgetsServices.partialHelper(
-            widget.root,
-            widget.indexJs,
-            widget.indexCss,
-            widget.tenantId.toString(),
+      /* const tenantData = await this.tenantsService.findBySlug(tenantSlug);
+      const pageData = await this.pagesServices.findPageByUrlAndTenantId(
+        `/${url}`,
+        tenantData.id,
+      );
+
+      this.consoleLogger.log(
+        `======================== ${tenantSlug}/${url} ========================`,
+      );
+      this.consoleLogger.log(tenantData);
+      this.consoleLogger.log(pageData);
+
+      if (!tenantData || !pageData) {
+        throw new NotFoundException();
+      }
+
+      if (tenantData.id.toString() !== pageData.tenantId.toString()) {
+        throw new NotFoundException();
+      }
+
+      const snippetsData = await this.snippetsServices.findSnippetsByTenant(
+        tenantData.id,
+      ); */
+
+      const templateString: string = template.template;
+      const templateHtml: any = Handlebars.compile(templateString);
+
+      /* if (pageData.widgets.length) {
+        pageData.widgets.forEach((widget: Widget) => {
+          Handlebars.registerPartial(
             widget.name,
-          ),
-        );
-      });
+            this.widgetsServices.partialHelper(
+              widget.root,
+              widget.indexJs,
+              widget.indexCss,
+              widget.tenantId.toString(),
+              widget.name,
+            ),
+          );
+        });
+      }
+
+      if (snippetsData.length) {
+        snippetsData.forEach((snippet: Snippet) => {
+          Handlebars.registerPartial(snippet.name, snippet.template);
+        });
+      } */
+
+      const result: HTMLElement = templateHtml();
+
+      return result;
+    } catch (err: any) {
+      throw new HttpException(err?.message, err?.status);
     }
-
-    if (snippetsData.length) {
-      snippetsData.forEach((snippet: Snippet) => {
-        Handlebars.registerPartial(snippet.name, snippet.template);
-      });
-    }
-
-    const result: HTMLElement = template();
-
-    return result; */
-    return '<div></div>';
   }
 }

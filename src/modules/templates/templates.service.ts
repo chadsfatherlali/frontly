@@ -40,10 +40,10 @@ export class TemplatesService {
     }
   }
 
-  /* async findAll(): Promise<Page[]> {
+  async findAll(): Promise<Template[]> {
     try {
-      const result = await this.pageRepository.find({
-        where: { userId: this.request.user.userId },
+      const result = await this.templateRepository.find({
+        where: { user: { id: this.request.user.userId } },
       });
 
       return result;
@@ -52,7 +52,7 @@ export class TemplatesService {
     }
   }
 
-  async findPageByUrlAndTenantId(url: string, tenantId: string): Promise<Page> {
+  /* async findPageByUrlAndTenantId(url: string, tenantId: string): Promise<Page> {
     try {
       const result = await this.pageModel
         .findOne({ url, tenantId })

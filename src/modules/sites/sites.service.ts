@@ -46,7 +46,7 @@ export class SitesService {
     try {
       const result = await this.siteRepository.findOne({
         where: { siteSlug },
-        relations: ['user', 'pages'],
+        relations: ['user', 'pages', 'templates'],
       });
 
       return result;

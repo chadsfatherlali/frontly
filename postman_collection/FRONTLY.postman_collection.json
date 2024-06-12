@@ -7,6 +7,56 @@
 	},
 	"item": [
 		{
+			"name": "LOGIN",
+			"item": [
+				{
+					"name": "LOGIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = JSON.parse(pm.response.text());\r",
+									"\r",
+									"pm.globals.set(\"access_token\", response.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"chadsfather@gmail.com\",\r\n    \"password\": \"Todo1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "USERS",
 			"item": [
 				{
@@ -280,7 +330,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"url\": \"/home\",\r\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\"\r\n}",
+							"raw": "{\r\n    \"url\": \"/payments\",\r\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,7 +435,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"templateId\": \"3973c598-6590-4fa0-94fe-6ce29c4825a1\"\r\n}",
+							"raw": "{\r\n    \"templateId\": \"45bc490c-2751-42fc-a688-64b9042dbaf3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -586,81 +636,6 @@
 			]
 		},
 		{
-			"name": "LOGIN",
-			"item": [
-				{
-					"name": "LOGIN",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const response = JSON.parse(pm.response.text());\r",
-									"\r",
-									"pm.globals.set(\"access_token\", response.access_token);"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"chadsfather@gmail.com\",\r\n    \"password\": \"Todo1234\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "APP",
-			"item": [
-				{
-					"name": "RENDER PAGE",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/site-test-page/home",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"site-test-page",
-								"home"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "TEMPLATES",
 			"item": [
 				{
@@ -698,6 +673,74 @@
 								"api",
 								"v1",
 								"templates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET TEMPLATES",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/templates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"templates"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "APP",
+			"item": [
+				{
+					"name": "RENDER PAGE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/site-test/home",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"site-test",
+								"home"
 							]
 						}
 					},

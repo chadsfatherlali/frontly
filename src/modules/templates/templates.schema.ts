@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Site } from '../sites/sites.schema';
 import { User } from '../users/users.schema';
+import { Page } from '../pages/page.schema';
 
 @Entity()
 export class Template {
@@ -28,4 +30,7 @@ export class Template {
 
   @ManyToOne(() => Site, (site) => site.pages)
   site: Site;
+
+  @OneToMany(() => Page, (page) => page.template)
+  pages: Page[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { TemplatesService } from './templates.service';
 import { CreateTemplateDto } from './templates.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -11,6 +11,14 @@ export class TemplatesController {
   @Post()
   create(@Body() createTemplateDto: CreateTemplateDto): Promise<any> {
     const result = this.templateService.create(createTemplateDto);
+
+    return result;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  findAll(): Promise<any[]> {
+    const result = this.templateService.findAll();
 
     return result;
   }

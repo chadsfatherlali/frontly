@@ -3,9 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -40,7 +38,6 @@ export class Page {
   @ManyToOne(() => Site, (site) => site.pages)
   site: Site;
 
-  @OneToOne(() => Template)
-  @JoinColumn()
+  @ManyToOne(() => Template, (template) => template.pages)
   template: Template;
 }
