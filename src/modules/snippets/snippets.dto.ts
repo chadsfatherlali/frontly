@@ -1,5 +1,10 @@
 export class CreateSnippetDto {
-  readonly tenantId: string;
   readonly name: string;
   readonly template: string;
+  readonly siteId: string;
+}
+
+export class UpdateSnippetDto {
+  readonly template: string;
+  readonly siteId: string;
 }

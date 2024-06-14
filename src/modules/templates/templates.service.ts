@@ -12,7 +12,6 @@ import { Site } from '../sites/sites.schema';
 export class TemplatesService {
   constructor(
     @Inject(REQUEST) private request: CustomRequest,
-    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Template)
     private templateRepository: Repository<Template>,
     private readonly dataSource: DataSource,

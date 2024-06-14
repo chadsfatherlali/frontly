@@ -9,7 +9,7 @@ import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
 import { Site } from './modules/sites/sites.schema';
 import { SnippetsModule } from './modules/snippets/snippets.module';
-import { Snippet, SnippetSchema } from './modules/snippets/snippet.schema';
+import { Snippet } from './modules/snippets/snippet.schema';
 import { SnippetsService } from './modules/snippets/snippets.service';
 import { WidgetsModule } from './modules/widgets/widgets.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -52,7 +52,7 @@ import { TemplatesService } from './modules/templates/templates.service';
         username: configService.get<string>('DB_USER', ''),
         password: configService.get<string>('DB_PASSWORD', ''),
         database: configService.get<string>('DB_NAME', ''),
-        entities: [Site, User, Page, Template],
+        entities: [Site, User, Page, Template, Snippet],
         synchronize: configService.get<boolean>('DB_SYNC', false),
         ssl: {
           rejectUnauthorized: false,
@@ -82,10 +82,7 @@ import { TemplatesService } from './modules/templates/templates.service';
     SnippetsModule,
     PagesModule,
     SitesModule,
-    MongooseModule.forFeature([
-      { name: Snippet.name, schema: SnippetSchema },
-      { name: Widget.name, schema: WidgetSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Widget.name, schema: WidgetSchema }]),
   ],
   controllers: [AppController],
   providers: [

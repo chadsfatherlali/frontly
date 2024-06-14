@@ -1,6 +1,7 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import Handlebars from 'handlebars';
 import { SitesService } from './modules/sites/sites.service';
+import { Snippet } from './modules/snippets/snippet.schema';
 
 @Injectable()
 export class AppService {
@@ -68,13 +69,13 @@ export class AppService {
             ),
           );
         });
-      }
+      } */
 
-      if (snippetsData.length) {
-        snippetsData.forEach((snippet: Snippet) => {
+      if (site.snippets.length) {
+        site.snippets.forEach((snippet: Snippet) => {
           Handlebars.registerPartial(snippet.name, snippet.template);
         });
-      } */
+      }
 
       const result: HTMLElement = templateHtml();
 

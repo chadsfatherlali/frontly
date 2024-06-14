@@ -1,18 +1,36 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { HttpException, Inject, Injectable, Scope } from '@nestjs/common';
 import { CreateSnippetDto } from './snippets.dto';
 import { Snippet } from './snippet.schema';
+import { REQUEST } from '@nestjs/core';
+import { CustomRequest } from 'src/interfaces/custom-request.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { User } from '../users/users.schema';
+import { Site } from '../sites/sites.schema';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class SnippetsService {
   constructor(
-    @InjectModel(Snippet.name) private snippetModel: Model<Snippet>,
+    @Inject(REQUEST) private request: CustomRequest,
+    @InjectRepository(Snippet) private snippetRepository: Repository<Snippet>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async create(createSnippetDto: CreateSnippetDto): Promise<Snippet> {
     try {
-      const result = await this.snippetModel.create(createSnippetDto);
+      const result = await this.snippetRepository.save(createSnippetDto);
+
+      await this.dataSource
+        .createQueryBuilder()
+        .relation(User, 'snippets')
+        .of(this.request.user.userId)
+        .add(result.id);
+
+      await this.dataSource
+        .createQueryBuilder()
+        .relation(Site, 'snippets')
+        .of(result.siteId)
+        .add(result.id);
 
       return result;
     } catch (err: any) {
@@ -20,9 +38,35 @@ export class SnippetsService {
     }
   }
 
-  async findSnippetsByTenant(tenantId: string): Promise<Snippet[]> {
+  async findAll(): Promise<Snippet[]> {
     try {
-      const result = await this.snippetModel.find({ tenantId });
+      const result = await this.snippetRepository.find({
+        where: { user: { id: this.request.user.userId } },
+      });
+
+      return result;
+    } catch (err: any) {
+      throw new HttpException(err?.message, err?.statusCode);
+    }
+  }
+
+  async updateSnippet(
+    snippetId: string,
+    siteId: string,
+    template: string,
+  ): Promise<Snippet> {
+    try {
+      console.log(snippetId);
+      console.log(siteId);
+      console.log(template);
+
+      const snippet = await this.snippetRepository.findOne({
+        where: { id: snippetId, site: { id: siteId } },
+      });
+
+      this.snippetRepository.merge(snippet, { template });
+
+      const result = this.snippetRepository.save(snippet);
 
       return result;
     } catch (err: any) {

@@ -1,22 +1,34 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Site } from '../sites/sites.schema';
+import { User } from '../users/users.schema';
 
-export type SnippetDocument = HydratedDocument<Snippet>;
-
-@Schema({ timestamps: true })
+@Entity()
 export class Snippet {
-  _id: mongoose.Schema.Types.ObjectId;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Prop({ required: true })
-  tenantId: mongoose.Schema.Types.ObjectId;
-
-  @Prop({ required: true })
+  @Column({ unique: true })
   name: string;
 
-  @Prop({ required: true })
+  @Column('text', { nullable: false })
   template: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.pages)
+  user: User;
+
+  @ManyToOne(() => Site, (site) => site.pages)
+  site: Site;
 }
-
-export const SnippetSchema = SchemaFactory.createForClass(Snippet);
-
-SnippetSchema.index({ tenantId: 1, name: 1 }, { unique: true });

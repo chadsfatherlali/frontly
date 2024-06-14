@@ -1,4 +1,10 @@
-import { HttpException, Inject, Injectable, Scope } from '@nestjs/common';
+import {
+  HttpException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  Scope,
+} from '@nestjs/common';
 import { Site } from './sites.schema';
 import { CreateSiteDto } from './sites.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -46,8 +52,12 @@ export class SitesService {
     try {
       const result = await this.siteRepository.findOne({
         where: { siteSlug },
-        relations: ['user', 'pages', 'templates'],
+        relations: ['user', 'pages', 'templates', 'snippets'],
       });
+
+      if (!result) {
+        throw new NotFoundException();
+      }
 
       return result;
     } catch (err: any) {

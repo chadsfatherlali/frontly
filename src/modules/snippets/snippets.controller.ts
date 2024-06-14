@@ -1,11 +1,21 @@
-import { Body, Controller, Param, Post, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  UseGuards,
+  Patch,
+  Param,
+} from '@nestjs/common';
 import { SnippetsService } from './snippets.service';
-import { CreateSnippetDto } from './snippets.dto';
+import { CreateSnippetDto, UpdateSnippetDto } from './snippets.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/v1/snippets')
 export class SnippetsController {
   constructor(private readonly snippetsService: SnippetsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createSnippetDto: CreateSnippetDto): Promise<any> {
     const result = this.snippetsService.create(createSnippetDto);
@@ -13,9 +23,24 @@ export class SnippetsController {
     return result;
   }
 
-  @Get(':tenantId')
-  findSnippetsByTenant(@Param() params: any): Promise<any[]> {
-    const result = this.snippetsService.findSnippetsByTenant(params.tenantId);
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  findSnippetsByTenant(): Promise<any[]> {
+    const result = this.snippetsService.findAll();
+
+    return result;
+  }
+
+  @Patch(':snippedId')
+  updateSnippet(
+    @Param() param: any,
+    @Body() body: UpdateSnippetDto,
+  ): Promise<any> {
+    const result = this.snippetsService.updateSnippet(
+      param.snippedId,
+      body.siteId,
+      body.template,
+    );
 
     return result;
   }
