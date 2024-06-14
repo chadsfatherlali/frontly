@@ -56,10 +56,6 @@ export class SnippetsService {
     template: string,
   ): Promise<Snippet> {
     try {
-      console.log(snippetId);
-      console.log(siteId);
-      console.log(template);
-
       const snippet = await this.snippetRepository.findOne({
         where: { id: snippetId, site: { id: siteId } },
       });
