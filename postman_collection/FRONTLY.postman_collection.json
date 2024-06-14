@@ -292,7 +292,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/sites/site-test",
+							"raw": "http://localhost:3000/api/v1/sites/test",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -302,7 +302,7 @@
 								"api",
 								"v1",
 								"sites",
-								"site-test"
+								"test"
 							]
 						}
 					},
@@ -467,11 +467,21 @@
 				{
 					"name": "CREATE SNIPPETS",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tenantId\": \"664d7e05b6f7af15aa394d64\",\r\n    \"name\": \"footer\",\r\n    \"template\": \"<h2>HOLA SANCHEZ!!!</h2>\"\r\n}",
+							"raw": "{\r\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\",\r\n    \"name\": \"footer\",\r\n    \"template\": \"<h2>HOLA SANCHEZ!!!</h2>\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -495,12 +505,62 @@
 					"response": []
 				},
 				{
-					"name": "GET SNIPPETS BY TENANT",
+					"name": "GET SNIPPETS BY ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/snippets/664d7e05b6f7af15aa394d64",
+							"raw": "http://localhost:3000/api/v1/snippets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"snippets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE SNIPPETS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\",\n    \"template\": \"<h3>SSANCHEZ</h3>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/snippets/2f3d4966-16d9-4975-814c-f6188a5b26dc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -510,7 +570,7 @@
 								"api",
 								"v1",
 								"snippets",
-								"664d7e05b6f7af15aa394d64"
+								"2f3d4966-16d9-4975-814c-f6188a5b26dc"
 							]
 						}
 					},
