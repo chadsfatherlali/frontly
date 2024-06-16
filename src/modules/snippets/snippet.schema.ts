@@ -26,9 +26,9 @@ export class Snippet {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.pages)
+  @ManyToOne(() => User, (user) => user.snippets)
   user: User;
 
-  @ManyToOne(() => Site, (site) => site.pages)
+  @ManyToOne(() => Site, (site) => site.snippets)
   site: Site;
 }

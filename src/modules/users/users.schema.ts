@@ -11,6 +11,7 @@ import { Site } from '../sites/sites.schema';
 import { Page } from '../pages/page.schema';
 import { Template } from '../templates/templates.schema';
 import { Snippet } from '../snippets/snippet.schema';
+import { Widget } from '../widgets/widgets.schema';
 
 @Entity()
 export class User {
@@ -47,4 +48,7 @@ export class User {
 
   @OneToMany(() => Snippet, (snippet) => snippet.user)
   snippets: Snippet[];
+
+  @OneToMany(() => Widget, (widget) => widget.user)
+  widgets: Snippet[];
 }

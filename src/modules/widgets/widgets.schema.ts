@@ -1,29 +1,43 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from '../users/users.schema';
+import { Site } from '../sites/sites.schema';
 
-export type WidgetsDocument = HydratedDocument<Widget>;
-
-@Schema({ timestamps: true })
+@Entity()
 export class Widget {
-  _id: mongoose.Schema.Types.ObjectId;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Prop({ required: true })
-  tenantId: mongoose.Schema.Types.ObjectId;
-
-  @Prop()
+  @Column()
   path: string;
 
-  @Prop({ required: true, unique: true })
+  @Column({ unique: true, nullable: false })
   name: string;
 
-  @Prop({ required: true })
+  @Column({ nullable: false })
   root: string;
 
-  @Prop({ required: true })
+  @Column({ nullable: false })
   indexJs: string;
 
-  @Prop({ required: true })
+  @Column({ nullable: false })
   indexCss: string;
-}
 
-export const WidgetSchema = SchemaFactory.createForClass(Widget);
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.widgets)
+  user: User;
+
+  @ManyToOne(() => Site, (site) => site.widgets)
+  site: Site;
+}
