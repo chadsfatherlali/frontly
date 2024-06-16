@@ -52,7 +52,7 @@ export class SitesService {
     try {
       const result = await this.siteRepository.findOne({
         where: { siteSlug },
-        relations: ['user', 'pages', 'templates', 'snippets'],
+        relations: ['user', 'pages', 'templates', 'snippets', 'widgets'],
       });
 
       if (!result) {

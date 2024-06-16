@@ -2,10 +2,14 @@ import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import Handlebars from 'handlebars';
 import { SitesService } from './modules/sites/sites.service';
 import { Snippet } from './modules/snippets/snippet.schema';
+import { WidgetsService } from './modules/widgets/widgets.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly sitesServices: SitesService) {}
+  constructor(
+    private readonly sitesServices: SitesService,
+    private readonly widgetsServices: WidgetsService,
+  ) {}
 
   async getPage(siteSlug: string, url: string): Promise<HTMLElement> {
     try {
@@ -29,47 +33,23 @@ export class AppService {
         throw new NotFoundException();
       }
 
-      /* const tenantData = await this.tenantsService.findBySlug(tenantSlug);
-      const pageData = await this.pagesServices.findPageByUrlAndTenantId(
-        `/${url}`,
-        tenantData.id,
-      );
-
-      this.consoleLogger.log(
-        `======================== ${tenantSlug}/${url} ========================`,
-      );
-      this.consoleLogger.log(tenantData);
-      this.consoleLogger.log(pageData);
-
-      if (!tenantData || !pageData) {
-        throw new NotFoundException();
-      }
-
-      if (tenantData.id.toString() !== pageData.tenantId.toString()) {
-        throw new NotFoundException();
-      }
-
-      const snippetsData = await this.snippetsServices.findSnippetsByTenant(
-        tenantData.id,
-      ); */
-
       const templateString: string = template.template;
       const templateHtml: any = Handlebars.compile(templateString);
 
-      /* if (pageData.widgets.length) {
-        pageData.widgets.forEach((widget: Widget) => {
+      if (site.widgets.length) {
+        site.widgets.forEach((widget: any) => {
           Handlebars.registerPartial(
             widget.name,
             this.widgetsServices.partialHelper(
               widget.root,
               widget.indexJs,
               widget.indexCss,
-              widget.tenantId.toString(),
+              site.id,
               widget.name,
             ),
           );
         });
-      } */
+      }
 
       if (site.snippets.length) {
         site.snippets.forEach((snippet: Snippet) => {

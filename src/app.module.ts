@@ -1,7 +1,6 @@
 import { ConsoleLogger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagesModule } from './modules/pages/pages.module';
 import { SitesModule } from './modules/sites/sites.module';
@@ -15,7 +14,7 @@ import { WidgetsModule } from './modules/widgets/widgets.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { WidgetsService } from './modules/widgets/widgets.service';
-import { Widget, WidgetSchema } from './modules/widgets/widgets.schema';
+import { Widget } from './modules/widgets/widgets.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { UsersService } from './modules/users/users.service';
@@ -52,21 +51,11 @@ import { TemplatesService } from './modules/templates/templates.service';
         username: configService.get<string>('DB_USER', ''),
         password: configService.get<string>('DB_PASSWORD', ''),
         database: configService.get<string>('DB_NAME', ''),
-        entities: [Site, User, Page, Template, Snippet],
+        entities: [Site, User, Page, Template, Snippet, Widget],
         synchronize: configService.get<boolean>('DB_SYNC', false),
         ssl: {
           rejectUnauthorized: false,
         },
-      }),
-      imports: [ConfigModule],
-      inject: [ConfigService],
-    }),
-    MongooseModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('DB_URL', ''),
-        dbName: configService.get<string>('DB_NAME', ''),
-        autoIndex: true,
-        autoCreate: true,
       }),
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -82,7 +71,6 @@ import { TemplatesService } from './modules/templates/templates.service';
     SnippetsModule,
     PagesModule,
     SitesModule,
-    MongooseModule.forFeature([{ name: Widget.name, schema: WidgetSchema }]),
   ],
   controllers: [AppController],
   providers: [

@@ -552,7 +552,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\",\n    \"template\": \"<h3>SSANCHEZ</h3>\"\n}",
+							"raw": "{\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\",\n    \"template\": \"<h3>Santiago Sánchez</h3>\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -560,7 +560,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/snippets/2f3d4966-16d9-4975-814c-f6188a5b26dc",
+							"raw": "http://localhost:3000/api/v1/snippets/2bc080fb-bdcc-4ef8-a696-85131e05a60e",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -570,7 +570,7 @@
 								"api",
 								"v1",
 								"snippets",
-								"2f3d4966-16d9-4975-814c-f6188a5b26dc"
+								"2bc080fb-bdcc-4ef8-a696-85131e05a60e"
 							]
 						}
 					},
@@ -582,8 +582,18 @@
 			"name": "WIDGETS",
 			"item": [
 				{
-					"name": "CREATE WIDGETS",
+					"name": "CREATE WIDGETS EXAMPLE REACT",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -592,26 +602,26 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/1983s/OneDrive/Documentos/NODEJS/TestWidget/dist/assets/TestWidget.zip"
+									"src": "/Users/ssanchez/Documents/team-time/react-component/dist/assets.zip"
 								},
 								{
-									"key": "tenantId",
-									"value": "664d7e05b6f7af15aa394d64",
+									"key": "siteId",
+									"value": "2f3d4966-16d9-4975-814c-f6188a5b26dc",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "TestWidget",
+									"value": "ReactWidget",
 									"type": "text"
 								},
 								{
 									"key": "indexJs",
-									"value": "index-C-aA0lbL",
+									"value": "index-o3k4gP3Q",
 									"type": "text"
 								},
 								{
 									"key": "indexCss",
-									"value": "index-Ddo_M0Ii",
+									"value": "index-Bx9V9zN2",
 									"type": "text"
 								},
 								{
@@ -640,6 +650,16 @@
 				{
 					"name": "CREATE WIDGETS EXAMPLE VUE",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -648,26 +668,26 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/1983s/OneDrive/Documentos/NODEJS/TestWidgetVue/dist/assets/TestWidgetVue.zip"
+									"src": "/Users/ssanchez/Documents/team-time/vue-component/dist/assets.zip"
 								},
 								{
-									"key": "tenantId",
-									"value": "664d7e05b6f7af15aa394d64",
+									"key": "siteId",
+									"value": "2f3d4966-16d9-4975-814c-f6188a5b26dc",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "TestWidgetVue",
+									"value": "VueWidget",
 									"type": "text"
 								},
 								{
 									"key": "indexJs",
-									"value": "index-GwkHndXs",
+									"value": "index-CuDIg5Xo",
 									"type": "text"
 								},
 								{
 									"key": "indexCss",
-									"value": "index-DQRkJG5v",
+									"value": "index-kZwgcoij",
 									"type": "text"
 								},
 								{
