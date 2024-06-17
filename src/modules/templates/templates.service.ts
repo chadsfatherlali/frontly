@@ -35,7 +35,7 @@ export class TemplatesService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -47,45 +47,7 @@ export class TemplatesService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
-
-  /* async findPageByUrlAndTenantId(url: string, tenantId: string): Promise<Page> {
-    try {
-      const result = await this.pageModel
-        .findOne({ url, tenantId })
-        .populate('widgets');
-
-      return result;
-    } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
-    }
-  } */
-
-  /* async updatePage(body: UpdatePageDto): Promise<Page> {
-    try {
-      const { _id, tenantId } = body;
-
-      const page = await this.pageModel.findOne({ _id, tenantId });
-
-      page.snippets.forEach((snippet: Snippet) =>
-        body.snippets.push(snippet._id),
-      );
-
-      page.widgets.forEach((widget: Widget) => body.widgets.push(widget._id));
-
-      const result = await this.pageModel.findByIdAndUpdate(
-        {
-          _id,
-          tenantId,
-        },
-        body,
-      );
-
-      return result;
-    } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
-    }
-  } */
 }

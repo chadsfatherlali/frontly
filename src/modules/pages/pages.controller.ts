@@ -9,13 +9,13 @@ import {
 } from '@nestjs/common';
 import { PagesService } from './pages.service';
 import { AssignTemplateDto, CreatePageDto } from './pages.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/local-jwt.guard';
 
-@Controller('api/v1/pages')
+@Controller('pages')
 export class PagesController {
   constructor(private readonly pageService: PagesService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createPageDto: CreatePageDto): Promise<any> {
     const result = this.pageService.create(createPageDto);
@@ -23,7 +23,7 @@ export class PagesController {
     return result;
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(): Promise<any[]> {
     const result = this.pageService.findAll();
@@ -31,6 +31,7 @@ export class PagesController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findById(@Param() params: any): Promise<any> {
     const result = this.pageService.findOneById(params.id);
@@ -38,6 +39,7 @@ export class PagesController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':pageId')
   assignTemaplte(
     @Param() params: any,

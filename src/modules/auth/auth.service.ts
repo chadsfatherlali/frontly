@@ -23,7 +23,7 @@ export class AuthService {
 
       return null;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 

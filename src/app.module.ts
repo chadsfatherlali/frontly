@@ -6,27 +6,21 @@ import { PagesModule } from './modules/pages/pages.module';
 import { SitesModule } from './modules/sites/sites.module';
 import { SitesService } from './modules/sites/sites.service';
 import { PagesService } from './modules/pages/pages.service';
-import { Site } from './modules/sites/sites.schema';
 import { SnippetsModule } from './modules/snippets/snippets.module';
-import { Snippet } from './modules/snippets/snippet.schema';
 import { SnippetsService } from './modules/snippets/snippets.service';
 import { WidgetsModule } from './modules/widgets/widgets.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { WidgetsService } from './modules/widgets/widgets.service';
-import { Widget } from './modules/widgets/widgets.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { UsersService } from './modules/users/users.service';
-import { User } from './modules/users/users.schema';
 import { AuthService } from './modules/auth/auth.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { LocalStrategy } from './modules/auth/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './modules/auth/jwt.strategy';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { Page } from './modules/pages/page.schema';
-import { Template } from './modules/templates/templates.schema';
 import { TemplatesModule } from './modules/templates/templates.module';
 import { TemplatesService } from './modules/templates/templates.service';
 
@@ -51,7 +45,7 @@ import { TemplatesService } from './modules/templates/templates.service';
         username: configService.get<string>('DB_USER', ''),
         password: configService.get<string>('DB_PASSWORD', ''),
         database: configService.get<string>('DB_NAME', ''),
-        entities: [Site, User, Page, Template, Snippet, Widget],
+        entities: ['dist/**/*.schema{.ts,.js}'],
         synchronize: configService.get<boolean>('DB_SYNC', false),
         ssl: {
           rejectUnauthorized: false,

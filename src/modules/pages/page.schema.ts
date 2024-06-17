@@ -20,6 +20,9 @@ export class Page {
   @Column({ unique: true })
   url: string;
 
+  @Column({ nullable: false })
+  title: string;
+
   @Column({ nullable: true })
   templateId: string;
 

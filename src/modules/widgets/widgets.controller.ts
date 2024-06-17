@@ -9,13 +9,13 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { WidgetsService } from './widgets.service';
 import { CreateWidgetDto } from './widgets.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/local-jwt.guard';
 
-@Controller('api/v1/widgets')
+@Controller('widgets')
 export class WidgetsController {
   constructor(private readonly widgetsServices: WidgetsService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async upload(

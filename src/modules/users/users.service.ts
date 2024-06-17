@@ -19,7 +19,7 @@ export class UsersService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -32,7 +32,7 @@ export class UsersService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -42,7 +42,7 @@ export class UsersService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -52,7 +52,7 @@ export class UsersService {
 
       return siteId;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 }

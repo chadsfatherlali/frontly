@@ -9,13 +9,13 @@ import {
 } from '@nestjs/common';
 import { SnippetsService } from './snippets.service';
 import { CreateSnippetDto, UpdateSnippetDto } from './snippets.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/local-jwt.guard';
 
-@Controller('api/v1/snippets')
+@Controller('snippets')
 export class SnippetsController {
   constructor(private readonly snippetsService: SnippetsService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createSnippetDto: CreateSnippetDto): Promise<any> {
     const result = this.snippetsService.create(createSnippetDto);
@@ -23,7 +23,7 @@ export class SnippetsController {
     return result;
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   findSnippetsByTenant(): Promise<any[]> {
     const result = this.snippetsService.findAll();
@@ -31,6 +31,7 @@ export class SnippetsController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':snippedId')
   updateSnippet(
     @Param() param: any,

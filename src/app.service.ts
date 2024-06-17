@@ -57,7 +57,10 @@ export class AppService {
         });
       }
 
-      const result: HTMLElement = templateHtml();
+      const result: HTMLElement = templateHtml({
+        user: { ...site.user },
+        page: { ...page },
+      });
 
       return result;
     } catch (err: any) {

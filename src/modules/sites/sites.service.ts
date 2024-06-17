@@ -34,7 +34,7 @@ export class SitesService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -44,7 +44,7 @@ export class SitesService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 
@@ -61,7 +61,7 @@ export class SitesService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
 }

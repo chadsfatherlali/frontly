@@ -45,21 +45,9 @@ export class WidgetsService {
 
       return result;
     } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
+      throw new HttpException(err?.message, err?.status);
     }
   }
-
-  /* async getWidgetsByTenanId(
-    tenantId: mongoose.Schema.Types.ObjectId,
-  ): Promise<Widget[]> {
-    try {
-      const result = this.widgetRepository.find({ tenantId });
-
-      return result;
-    } catch (err: any) {
-      throw new HttpException(err?.message, err?.statusCode);
-    }
-  } */
 
   partialHelper(
     root: string,
