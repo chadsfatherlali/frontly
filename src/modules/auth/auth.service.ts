@@ -4,13 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { EnvironmentVariables } from 'src/interfaces/environment-variables.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<EnvironmentVariables>,
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
@@ -39,8 +40,8 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload, {
-        expiresIn: this.configService.get<string>('JWT_EXPIRE', ''),
-        secret: this.configService.get<string>('JWT_SECRET', ''),
+        expiresIn: this.configService.get('JWT_EXPIRE', { infer: true }),
+        secret: this.configService.get('JWT_SECRET', { infer: true }),
       }),
     };
   }

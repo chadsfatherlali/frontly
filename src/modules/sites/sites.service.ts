@@ -12,13 +12,15 @@ import { DataSource, Repository } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
 import { CustomRequest } from 'src/interfaces/custom-request.interface';
 import { User } from '../users/users.schema';
+import { ConfigService } from '@nestjs/config';
+import { EnvironmentVariables } from 'src/interfaces/environment-variables.interface';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SitesService {
   constructor(
     @Inject(REQUEST) private request: CustomRequest,
-    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Site) private siteRepository: Repository<Site>,
+    private readonly configService: ConfigService<EnvironmentVariables>,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -50,9 +52,10 @@ export class SitesService {
 
   async findBySlug(siteSlug: string): Promise<Site> {
     try {
-      const result = await this.siteRepository.findOne({
+      const result = await this.dataSource.getRepository(Site).findOne({
         where: { siteSlug },
         relations: ['user', 'pages', 'templates', 'snippets', 'widgets'],
+        cache: this.configService.get('DB_CACHE', { infer: true }),
       });
 
       if (!result) {

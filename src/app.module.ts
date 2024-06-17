@@ -23,32 +23,39 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { TemplatesModule } from './modules/templates/templates.module';
 import { TemplatesService } from './modules/templates/templates.service';
+import { EnvironmentVariables } from './interfaces/environment-variables.interface';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET', ''),
+      useFactory: (configService: ConfigService<EnvironmentVariables>) => ({
+        secret: configService.get('JWT_SECRET', { infer: true }),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRE', ''),
+          expiresIn: configService.get('JWT_EXPIRE', { infer: true }),
         },
       }),
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService<EnvironmentVariables>) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST', 'localhost'),
-        port: configService.get<number>('DB_PORT', 3306),
-        username: configService.get<string>('DB_USER', ''),
-        password: configService.get<string>('DB_PASSWORD', ''),
-        database: configService.get<string>('DB_NAME', ''),
+        host: configService.get('DB_HOST', { infer: true }),
+        port: configService.get('DB_PORT', { infer: true }),
+        username: configService.get('DB_USER', { infer: true }),
+        password: configService.get('DB_PASSWORD', { infer: true }),
+        database: configService.get('DB_NAME', { infer: true }),
         entities: ['dist/**/*.schema{.ts,.js}'],
-        synchronize: configService.get<boolean>('DB_SYNC', false),
+        synchronize: configService.get('DB_SYNC', { infer: true }),
+        logging: ['error'],
+        cache: {
+          duration: configService.get('DB_CACHE', { infer: true }),
+        },
         ssl: {
-          rejectUnauthorized: false,
+          rejectUnauthorized: configService.get('DB_REJECT_UNAUTHORIZE', {
+            infer: true,
+          }),
         },
       }),
       imports: [ConfigModule],
