@@ -330,7 +330,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"url\": \"/payments\",\r\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\"\r\n}",
+							"raw": "{\r\n    \"url\": \"/home\",\r\n    \"siteId\": \"2f3d4966-16d9-4975-814c-f6188a5b26dc\",\r\n    \"title\": \"Home\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -443,7 +443,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pages/d397eeab-a9f9-4071-97ec-962c7d543b29",
+							"raw": "http://localhost:3000/api/v1/pages/f3d3dfa4-ebba-4dda-b0bd-ae1a346944c0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -453,7 +453,7 @@
 								"api",
 								"v1",
 								"pages",
-								"d397eeab-a9f9-4071-97ec-962c7d543b29"
+								"f3d3dfa4-ebba-4dda-b0bd-ae1a346944c0"
 							]
 						}
 					},
