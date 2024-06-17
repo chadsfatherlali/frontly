@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { SitesService } from './sites.service';
 import { CreateSiteDto } from './sites.dto';
 import { Site } from './sites.schema';
-import { JwtAuthGuard } from '../auth/local-jwt.guard';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller('sites')
 export class SitesController {

@@ -9,7 +9,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { WidgetsService } from './widgets.service';
 import { CreateWidgetDto } from './widgets.dto';
-import { JwtAuthGuard } from '../auth/local-jwt.guard';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller('widgets')
 export class WidgetsController {
