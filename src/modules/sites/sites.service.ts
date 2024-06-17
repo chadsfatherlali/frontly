@@ -55,7 +55,10 @@ export class SitesService {
       const result = await this.dataSource.getRepository(Site).findOne({
         where: { siteSlug },
         relations: ['user', 'pages', 'templates', 'snippets', 'widgets'],
-        cache: this.configService.get('DB_CACHE', { infer: true }),
+        cache: parseInt(
+          this.configService.get('DB_CACHE', { infer: true }),
+          10,
+        ),
       });
 
       if (!result) {

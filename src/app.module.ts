@@ -50,7 +50,10 @@ import { EnvironmentVariables } from './interfaces/environment-variables.interfa
         synchronize: configService.get('DB_SYNC', { infer: true }),
         logging: ['error'],
         cache: {
-          duration: configService.get('DB_CACHE', { infer: true }),
+          duration: parseInt(
+            configService.get('DB_CACHE', { infer: true }),
+            10,
+          ),
         },
         ssl: {
           rejectUnauthorized: configService.get('DB_REJECT_UNAUTHORIZE', {
