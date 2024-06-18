@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { PagesService } from './pages.service';
 import { AssignTemplateDto, CreatePageDto } from './pages.dto';
-import { JwtAuthGuard } from '../auth/local-jwt.guard';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller('pages')
 export class PagesController {

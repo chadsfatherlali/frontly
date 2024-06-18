@@ -68,8 +68,10 @@ export class WidgetsService {
     siteId: string,
     name: string,
   ): string {
-    return `<div id="${root}"></div>
-    <link rel="stylesheet" href="/widgets/${siteId}/${name}/assets/${indexCss}.css"  />
-    <script type="module" src="/widgets/${siteId}/${name}/assets/${indexJs}.js"></script>`;
+    return `<div id="${siteId}_${name}">
+      <div id="${root}"></div>
+      <link rel="stylesheet" href="/widgets/${siteId}/${name}/assets/${indexCss}.css" />
+      <script type="module" src="/widgets/${siteId}/${name}/assets/${indexJs}.js"></script>
+    </div>`;
   }
 }

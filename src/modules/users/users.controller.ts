@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './users.dto';
-import { JwtAuthGuard } from '../auth/local-jwt.guard';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller('users')
 export class UsersController {

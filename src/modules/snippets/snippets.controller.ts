@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { SnippetsService } from './snippets.service';
 import { CreateSnippetDto, UpdateSnippetDto } from './snippets.dto';
-import { JwtAuthGuard } from '../auth/local-jwt.guard';
+import { JwtAuthGuard } from '../auth/auth-jwt.guard';
 
 @Controller('snippets')
 export class SnippetsController {
