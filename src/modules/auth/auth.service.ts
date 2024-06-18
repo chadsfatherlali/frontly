@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { EnvironmentVariables } from 'src/interfaces/environment-variables.interface';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,12 @@ export class AuthService {
     try {
       const result = await this.userRepository.findOneBy({ email });
 
-      if (result && password === result.password) {
+      const resultPasswordsCompare = await bcrypt.compare(
+        password,
+        result.password,
+      );
+
+      if (result && resultPasswordsCompare) {
         return result;
       }
 

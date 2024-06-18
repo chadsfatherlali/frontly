@@ -8,7 +8,7 @@ import {
 import { Site } from './sites.schema';
 import { CreateSiteDto } from './sites.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
 import { CustomRequest } from 'src/interfaces/custom-request.interface';
 import { User } from '../users/users.schema';
@@ -25,18 +25,30 @@ export class SitesService {
   ) {}
 
   async create(createSiteDto: CreateSiteDto): Promise<Site> {
-    try {
-      const result = await this.siteRepository.save(createSiteDto);
+    const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
 
-      await this.dataSource
+    await queryRunner.startTransaction();
+
+    try {
+      const result = await queryRunner.manager
+        .getRepository(Site)
+        .save(createSiteDto);
+
+      await queryRunner.manager
         .createQueryBuilder()
         .relation(User, 'sites')
         .of(this.request.user.userId)
         .add(result.id);
 
+      await queryRunner.commitTransaction();
+
       return result;
     } catch (err: any) {
+      await queryRunner.rollbackTransaction();
+
       throw new HttpException(err?.message, err?.status);
+    } finally {
+      await queryRunner.release();
     }
   }
 

@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -12,6 +14,7 @@ import { Page } from '../pages/page.schema';
 import { Template } from '../templates/templates.schema';
 import { Snippet } from '../snippets/snippet.schema';
 import { Widget } from '../widgets/widgets.schema';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -51,4 +54,12 @@ export class User {
 
   @OneToMany(() => Widget, (widget) => widget.user)
   widgets: Snippet[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword(): Promise<void> {
+    const salt = await bcrypt.genSalt();
+
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 }

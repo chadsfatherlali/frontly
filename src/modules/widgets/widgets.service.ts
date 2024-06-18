@@ -5,7 +5,7 @@ import { CreateWidgetDto } from './widgets.dto';
 import { REQUEST } from '@nestjs/core';
 import { CustomRequest } from 'src/interfaces/custom-request.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { User } from '../users/users.schema';
 import { Site } from '../sites/sites.schema';
 
@@ -21,6 +21,10 @@ export class WidgetsService {
     createWidgetDto: CreateWidgetDto,
     file: Express.Multer.File,
   ): Promise<Widget> {
+    const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.startTransaction();
+
     try {
       const path: string = `./uploads/widgets/${createWidgetDto.siteId}/${createWidgetDto.name}`;
       const zip: AdmZip = new AdmZip(file.buffer);
@@ -29,23 +33,31 @@ export class WidgetsService {
 
       createWidgetDto.path = path;
 
-      const result = await this.widgetRepository.save(createWidgetDto);
+      const result = await queryRunner.manager
+        .getRepository(Widget)
+        .save(createWidgetDto);
 
-      await this.dataSource
+      await queryRunner.manager
         .createQueryBuilder()
         .relation(User, 'widgets')
         .of(this.request.user.userId)
         .add(result.id);
 
-      await this.dataSource
+      await queryRunner.manager
         .createQueryBuilder()
         .relation(Site, 'widgets')
         .of(result.siteId)
         .add(result.id);
 
+      await queryRunner.commitTransaction();
+
       return result;
     } catch (err: any) {
+      await queryRunner.rollbackTransaction();
+
       throw new HttpException(err?.message, err?.status);
+    } finally {
+      await queryRunner.release();
     }
   }
 
