@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -17,6 +18,7 @@ export class Widget {
   @Column()
   path: string;
 
+  @Index('widget_name_idx')
   @Column({ unique: true, nullable: false })
   name: string;
 

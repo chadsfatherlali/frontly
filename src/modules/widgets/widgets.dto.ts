@@ -6,3 +6,10 @@ export class CreateWidgetDto {
   readonly indexJs: string;
   readonly indexCss: string;
 }
+
+export class UpdateWidgetDto {
+  readonly siteId: string;
+  readonly root: string;
+  readonly indexJs: string;
+  readonly indexCss: string;
+}
